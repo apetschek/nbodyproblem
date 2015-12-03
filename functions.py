@@ -50,7 +50,7 @@ def rungekutta(accel,m,r,h,v):
     return new_v,new_r
 
 #runge-kutta-fehlberg adaptive solver
-def rkf45(accel,m,r,h,v,recur,emin=.000001,emax=.0001,hmax=1,hmin=.000001,recurmax=100):
+def rkf45(accel,m,r,h,v,recur,emin=10**-12,emax=10**-8,hmax=1,hmin=.000001,recurmax=100):
     """
     alternate K calculations for position (r) and velocity (v)
     velocity Ks call prior position K's (Kr) and position calls prior velocity K's (Kv)
