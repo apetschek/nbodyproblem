@@ -7,7 +7,7 @@ import numpy as np
 with open('N_output.json', 'r') as n:
     N = simplejson.load(n)
 with open('norms_output.json', 'r') as n:
-    norms = simplejson.load(d)
+    norms = simplejson.load(n)
 with open('Rx_output.json', 'r') as rx:
     Rx = simplejson.load(rx)
 with open('Ry_output.json', 'r') as ry:
@@ -37,9 +37,12 @@ def plot_trajectory(Rx, Ry, Rz, N, limit):
 def plot_norms_hist(norms, N):
     fig, ((ax1, ax2),( ax3, ax4)) = plt.subplots(nrows=2, ncols=2)
     
-    norms = np.array(norms) / AU
+    norms0 = np.array(norms[0]) / AU
+    norms1 = np.array(norms[1]) / AU
+    norms2 = np.array(norms[2]) / AU
+    norms3 = np.array(norms[3]) / AU
 
-    x_max = 1
+    x_max = 2
     
     ax1.set_xlim(0, x_max)
     ax2.set_xlim(0, x_max)
@@ -53,10 +56,10 @@ def plot_norms_hist(norms, N):
     
     bins = [(x_max*i) / float(N) for i in range(N)]
     
-    ax1.hist(norms[0], bins=bins)
-    ax2.hist(norms[1], bins=bins)
-    ax3.hist(norms[2], bins=bins)
-    ax4.hist(norms[3], bins=bins)
+    ax1.hist(norms0, bins=bins)
+    ax2.hist(norms1, bins=bins)
+    ax3.hist(norms2, bins=bins)
+    ax4.hist(norms3, bins=bins)
     
     plt.show()
 

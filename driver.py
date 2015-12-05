@@ -15,7 +15,7 @@ V_param = 100000            #set max initial velocity 10**5 m/s
 
 N = 30                      #number of bodies in system
 h = 1                       #time step: (1 sec)
-steps = 20000               #number of time steps
+steps = 2000               #number of time steps
  
 # Initialize initial conditions
 m = masses(N,M_param); r = positions(N,R_param); v = velocities(N,V_param)   
@@ -32,9 +32,9 @@ for step in range(steps):
 	#                   SELECT DESIRED SOLVER BELOW                      #
 	#                                                                    #
 	#v,r = rungekutta(accel,m,r,h,v)  #RK 4th Order                      # 
-	v,r = leapfrog(accel,m,r,h,v)     #leapfrog 2nd Order                #
+	#v,r = leapfrog(accel,m,r,h,v)     #leapfrog 2nd Order                #
 	#v,r = leapfrogFR(accel,m,r,h,v)  #leapfrog 4th Order                #
-	#v,r,h = rkf45(accel,m,r,h,v,0)   #RK 5th Order w/ Adaptive timestep #
+	v,r,h = rkf45(accel,m,r,h,v,0)   #RK 5th Order w/ Adaptive timestep #
 	######################################################################	
 	
 	# Store position
@@ -70,7 +70,7 @@ with open ('N_output.json', 'w') as n:
 	simplejson.dump(N, n)
 
 with open ('norms_output.json', 'w') as n:
-	simplejson.dump(norms, d)
+	simplejson.dump(norms, n)
 
 with open ('Rx_output.json', 'w') as rx:
 	simplejson.dump(Rx, rx)
