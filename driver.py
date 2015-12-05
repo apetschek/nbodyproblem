@@ -52,7 +52,6 @@ for step in range(steps):
 t1 = time()
 print t1-t0                   
 
-
 # Save output
 with open ('N_output.json', 'w') as n:
 	simplejson.dump(N, n)
