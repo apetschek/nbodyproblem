@@ -54,32 +54,32 @@ print t1-t0
 
 
 # Save output
-with open ('test_N_output.json', 'w') as n:
+with open ('N_output.json', 'w') as n:
 	simplejson.dump(N, n)
 
-with open ('test_Rx_output.json', 'w') as rx:
+with open ('Rx_output.json', 'w') as rx:
 	simplejson.dump(Rx, rx)
 
-with open ('test_Ry_output.json', 'w') as ry:
+with open ('Ry_output.json', 'w') as ry:
 	simplejson.dump(Ry, ry)
 
-with open ('test_Rz_output.json', 'w') as rz:
+with open ('Rz_output.json', 'w') as rz:
 	simplejson.dump(Rz, rz)
 
-with open ('test_Vx_output.json', 'w') as vx:
+with open ('Vx_output.json', 'w') as vx:
 	simplejson.dump(Vx, vx)
 
-with open ('test_Vy_output.json', 'w') as vy:
+with open ('Vy_output.json', 'w') as vy:
 	simplejson.dump(Vy, vy)
 
-with open ('test_Vz_output.json', 'w') as vz:
+with open ('Vz_output.json', 'w') as vz:
 	simplejson.dump(Vz, vz)
 
-# with open('test_X_output.json', 'r') as x:
+# with open('X_output.json', 'r') as x:
 #     Rx = simplejson.load(x)
-# with open('test_Y_output.json', 'r') as y:
+# with open('Y_output.json', 'r') as y:
 #     Ry = simplejson.load(y)
-# with open('test_Z_output.json', 'r') as z:
+# with open('Z_output.json', 'r') as z:
 #     Rz = simplejson.load(z)
 
 

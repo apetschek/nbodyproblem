@@ -3,13 +3,13 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.animation as animation
 import simplejson
 
-with open('test_N_output.json', 'r') as n:
+with open('N_output.json', 'r') as n:
     N = simplejson.load(n)
-with open('test_Rx_output.json', 'r') as rx:
+with open('Rx_output.json', 'r') as rx:
     Rx = simplejson.load(rx)
-with open('test_Ry_output.json', 'r') as ry:
+with open('Ry_output.json', 'r') as ry:
     Ry = simplejson.load(ry)
-with open('test_Rz_output.json', 'r') as rz:
+with open('Rz_output.json', 'r') as rz:
     Rz = simplejson.load(rz)
 
 def plot_output(Rx, Ry, Rz, N, limit):
