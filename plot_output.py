@@ -65,7 +65,7 @@ def plot_norms_hist(norms, N):
     ax10.set_ylim(0, N)
     
     bins = [(x_max*i) / float(N) for i in range(N)]
-    
+
     ax1.hist(norms_to_plot[0], bins=bins)
     ax2.hist(norms_to_plot[1], bins=bins)
     ax3.hist(norms_to_plot[2], bins=bins)
@@ -80,7 +80,7 @@ def plot_norms_hist(norms, N):
     plt.show()
 
 AU    = 1.496 * 10**10
-limit = .1
+limit = .01
 
 plot_trajectory(Rx, Ry, Rz, N, limit)
 plot_norms_hist(norms, N)

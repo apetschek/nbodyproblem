@@ -9,13 +9,13 @@ import simplejson
 # System parameters
 M_sun = 1.98 * 10**30       #mass of sun in kg
 AU    = 1.496 * 10**10      #distance from earth to sun in m
-M_param = M_sun             #set all masses to m_sun
-R_param = AU * .1           #set max initial position to be 1/10*AU
+M_param = M_sun      #set all masses to m_sun
+R_param = AU*.1             #set max initial position to be 1/10*AU
 V_param = 100000            #set max initial velocity 10**5 m/s
 
 N = 10                      #number of bodies in system
 h = 1                       #time step: (1 sec)
-steps = 2000                #number of time steps
+steps = 100000              #number of time steps
  
 # Initialize initial conditions
 m = masses(N,M_param); r = positions(N,R_param); v = velocities(N,V_param)   
@@ -25,14 +25,17 @@ norms = [[] for i in range(10)]
 
 t0 = time()  
 
+# If we want to add a heavier single mass uncomment this
+#m[0] = M_sun; r[0][0] = 0; r[1][0] = 0; r[2][0] = 0; v[0][0] = 0; v[1][0]; v[2][0] = 0
+
 for step in range(steps):
 	progress(step,steps,t0)
 
 	######################################################################
 	#                   SELECT DESIRED SOLVER BELOW                      #
 	#                                                                    #
-	v,r = rungekutta(accel,m,r,h,v)   #RK 4th Order                      # 
-	#v,r = leapfrog(accel,m,r,h,v)     #leapfrog 2nd Order               #
+	#v,r = rungekutta(accel,m,r,h,v)   #RK 4th Order                     # 
+	v,r = leapfrog(accel,m,r,h,v)     #leapfrog 2nd Order                #
 	#v,r = leapfrogFR(accel,m,r,h,v)  #leapfrog 4th Order                #
 	#v,r,h = rkf45(accel,m,r,h,v,0)   #RK 5th Order w/ Adaptive timestep #
 	######################################################################	
@@ -43,6 +46,7 @@ for step in range(steps):
 		Ry[i].append(r[1][i]) 
 		Rz[i].append(r[2][i])
 
+	# Save norms for density as fct of radius calculations
 	if step == 0:
 		for i in range(N):
 			norms[0].append(np.sqrt((r[0][i])**2 + (r[1][i])**2 + (r[2][i])**2))
