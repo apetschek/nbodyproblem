@@ -13,15 +13,15 @@ M_param = M_sun             #set all masses to m_sun
 R_param = AU * .1           #set max initial position to be 1/10*AU
 V_param = 100000            #set max initial velocity 10**5 m/s
 
-N = 30                      #number of bodies in system
+N = 10                      #number of bodies in system
 h = 1                       #time step: (1 sec)
-steps = 2000               #number of time steps
+steps = 2000                #number of time steps
  
 # Initialize initial conditions
 m = masses(N,M_param); r = positions(N,R_param); v = velocities(N,V_param)   
 Rx = [[] for i in range(N)]; Ry = [[] for i in range(N)]; Rz = [[] for i in range(N)] 
 Vx = [[] for i in range(N)]; Vy = [[] for i in range(N)]; Vz = [[] for i in range(N)] 
-norms = [[] for i in range(5)]
+norms = [[] for i in range(10)]
 
 t0 = time()  
 
@@ -31,10 +31,10 @@ for step in range(steps):
 	######################################################################
 	#                   SELECT DESIRED SOLVER BELOW                      #
 	#                                                                    #
-	#v,r = rungekutta(accel,m,r,h,v)  #RK 4th Order                      # 
-	#v,r = leapfrog(accel,m,r,h,v)     #leapfrog 2nd Order                #
+	v,r = rungekutta(accel,m,r,h,v)   #RK 4th Order                      # 
+	#v,r = leapfrog(accel,m,r,h,v)     #leapfrog 2nd Order               #
 	#v,r = leapfrogFR(accel,m,r,h,v)  #leapfrog 4th Order                #
-	v,r,h = rkf45(accel,m,r,h,v,0)   #RK 5th Order w/ Adaptive timestep #
+	#v,r,h = rkf45(accel,m,r,h,v,0)   #RK 5th Order w/ Adaptive timestep #
 	######################################################################	
 	
 	# Store position
@@ -47,8 +47,8 @@ for step in range(steps):
 		for i in range(N):
 			norms[0].append(np.sqrt((r[0][i])**2 + (r[1][i])**2 + (r[2][i])**2))
 	
-	for i in range(4):
-		if (step == (steps/4)*i):
+	for i in range(10):
+		if (step == (steps/10)*i):
 			for n in range(N):
 				norms[i].append(np.sqrt((r[0][n])**2 + (r[1][n])**2 + (r[2][n])**2))
 
@@ -60,7 +60,7 @@ for step in range(steps):
 
 
 for n in range(N):
-	norms[4].append(np.sqrt((r[0][n])**2 + (r[1][n])**2 + (r[2][n])**2))
+	norms[9].append(np.sqrt((r[0][n])**2 + (r[1][n])**2 + (r[2][n])**2))
 
 t1 = time()
 print t1-t0                   

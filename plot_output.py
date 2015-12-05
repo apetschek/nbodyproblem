@@ -35,31 +35,47 @@ def plot_trajectory(Rx, Ry, Rz, N, limit):
 	plt.show()
 
 def plot_norms_hist(norms, N):
-    fig, ((ax1, ax2),( ax3, ax4)) = plt.subplots(nrows=2, ncols=2)
-    
-    norms0 = np.array(norms[0]) / AU
-    norms1 = np.array(norms[1]) / AU
-    norms2 = np.array(norms[2]) / AU
-    norms3 = np.array(norms[3]) / AU
+    fig, ((ax1, ax2, ax3, ax4, ax5),(ax6, ax7, ax8, ax9, ax10)) = plt.subplots(nrows=2, ncols=5)
 
+    norms_to_plot = []
+    for i in range(10):
+    	norms_to_plot.append(np.array(norms[i]) / AU)
     x_max = 2
     
     ax1.set_xlim(0, x_max)
     ax2.set_xlim(0, x_max)
     ax3.set_xlim(0, x_max)
     ax4.set_xlim(0, x_max)
+    ax5.set_xlim(0, x_max)
+    ax6.set_xlim(0, x_max)
+    ax7.set_xlim(0, x_max)
+    ax8.set_xlim(0, x_max)
+    ax9.set_xlim(0, x_max)
+    ax10.set_xlim(0, x_max)
     
     ax1.set_ylim(0, N)
     ax2.set_ylim(0, N)
     ax3.set_ylim(0, N)
     ax4.set_ylim(0, N)
+    ax5.set_ylim(0, N)
+    ax6.set_ylim(0, N)
+    ax7.set_ylim(0, N)
+    ax8.set_ylim(0, N)
+    ax9.set_ylim(0, N)
+    ax10.set_ylim(0, N)
     
     bins = [(x_max*i) / float(N) for i in range(N)]
     
-    ax1.hist(norms0, bins=bins)
-    ax2.hist(norms1, bins=bins)
-    ax3.hist(norms2, bins=bins)
-    ax4.hist(norms3, bins=bins)
+    ax1.hist(norms_to_plot[0], bins=bins)
+    ax2.hist(norms_to_plot[1], bins=bins)
+    ax3.hist(norms_to_plot[2], bins=bins)
+    ax4.hist(norms_to_plot[3], bins=bins)
+    ax5.hist(norms_to_plot[4], bins=bins)
+    ax6.hist(norms_to_plot[5], bins=bins)
+    ax7.hist(norms_to_plot[6], bins=bins)
+    ax8.hist(norms_to_plot[7], bins=bins)
+    ax9.hist(norms_to_plot[8], bins=bins)
+    ax10.hist(norms_to_plot[9], bins=bins)
     
     plt.show()
 
