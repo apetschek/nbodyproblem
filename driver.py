@@ -9,21 +9,32 @@ import simplejson
 # System parameters
 M_sun = 1.98 * 10**30       #mass of sun in kg
 AU    = 1.496 * 10**10      #distance from earth to sun in m
-M_param = M_sun      #set all masses to m_sun
+M_param = M_sun             #set all masses to m_sun
 R_param = AU*.1             #set max initial position to be 1/10*AU
 V_param = 100000            #set max initial velocity 10**5 m/s
 
-N = 10                      #number of bodies in system
-h = 1                       #time step: (1 sec)
-steps = 100000              #number of time steps
+N = 25                      #number of bodies in system
+h = .1                       #time step: (1 sec)
+steps = 20000                #number of time steps
  
 # Initialize initial conditions
 m = masses(N,M_param); r = positions(N,R_param); v = velocities(N,V_param)   
 Rx = [[] for i in range(N)]; Ry = [[] for i in range(N)]; Rz = [[] for i in range(N)] 
 Vx = [[] for i in range(N)]; Vy = [[] for i in range(N)]; Vz = [[] for i in range(N)] 
-norms = [[] for i in range(10)]
+norms = []
 
 t0 = time()  
+
+with open('N_output.json', 'r') as n:
+    N = simplejson.load(n)
+with open('norms_output.json', 'r') as n:
+    norms = simplejson.load(n)
+with open('Rx_output.json', 'r') as rx:
+    Rx = simplejson.load(rx)
+with open('Ry_output.json', 'r') as ry:
+    Ry = simplejson.load(ry)
+with open('Rz_output.json', 'r') as rz:
+    Rz = simplejson.load(rz)
 
 # If we want to add a heavier single mass uncomment this
 #m[0] = M_sun; r[0][0] = 0; r[1][0] = 0; r[2][0] = 0; v[0][0] = 0; v[1][0]; v[2][0] = 0
@@ -48,23 +59,27 @@ for step in range(steps):
 
 	# Save norms for density as fct of radius calculations
 	if step == 0:
+		norms_tmp=[]
 		for i in range(N):
-			norms[0].append(np.sqrt((r[0][i])**2 + (r[1][i])**2 + (r[2][i])**2))
+			norms_tmp.append(np.sqrt((r[0][i])**2 + (r[1][i])**2 + (r[2][i])**2))
+		norms.append(norms_tmp)
 	
-	for i in range(10):
-		if (step == (steps/10)*i):
+	if (step % 5000 == 0):
+			norms_tmp = []
 			for n in range(N):
-				norms[i].append(np.sqrt((r[0][n])**2 + (r[1][n])**2 + (r[2][n])**2))
-
+				norms_tmp.append(np.sqrt((r[0][n])**2 + (r[1][n])**2 + (r[2][n])**2))
+			norms.append(norms_tmp)
+	
 	# Store velocity
 	for i in range(N):
 		Vx[i].append(r[0][i])
 		Vy[i].append(r[1][i]) 
 		Vz[i].append(r[2][i])
 
-
+norms_tmp = []
 for n in range(N):
-	norms[9].append(np.sqrt((r[0][n])**2 + (r[1][n])**2 + (r[2][n])**2))
+	norms_tmp.append(np.sqrt((r[0][n])**2 + (r[1][n])**2 + (r[2][n])**2))
+norms.append(norms_tmp)
 
 t1 = time()
 print t1-t0                   
