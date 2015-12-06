@@ -14,7 +14,7 @@ R_param = AU*.1             #set max initial position to be 1/10*AU
 V_param = 100000             #set max initial velocity 10**5 m/s
 
 continuing = False
-N = 3                 #number of bodies in system
+N = 2                 #number of bodies in system
 h = .1              #time step: (1 sec)
 steps = 200000         #number of time steps
  
@@ -24,8 +24,8 @@ m = masses(N,M_param); r = positions(N,R_param); v = velocities(N,V_param)
 r[0][0] = 0.5*R_param; r[1][0] = 0; r[2][0] = 0
 r[0][1] = -0.5*R_param; r[1][1] = 0; r[2][1] = 0
 
-v[0][0] = 0; v[1][0] = 100000; v[2][0] = 0
-v[0][1] = 0; v[1][1] = -100000; v[2][1] = 0
+v[0][0] = 0; v[1][0] = 125000; v[2][0] = 0
+v[0][1] = 0; v[1][1] = -125000; v[2][1] = 0
 
 Rx = [[] for i in range(N)]; Ry = [[] for i in range(N)]; Rz = [[] for i in range(N)] 
 Vx = [[] for i in range(N)]; Vy = [[] for i in range(N)]; Vz = [[] for i in range(N)] 
