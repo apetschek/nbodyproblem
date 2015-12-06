@@ -13,16 +13,16 @@ M_param = M_sun             #set all masses to m_sun
 R_param = AU*.1             #set max initial position to be 1/10*AU
 V_param = 100000             #set max initial velocity 10**5 m/s
 
-
-N = 2                 #number of bodies in system
+continuing = False
+N = 3                 #number of bodies in system
 h = .1              #time step: (1 sec)
 steps = 200000         #number of time steps
  
 # Initialize initial conditions
 m = masses(N,M_param); r = positions(N,R_param); v = velocities(N,V_param)   
 
-r[0][0] = R_param; r[1][0] = 0; r[2][0] = 0
-r[0][1] = 0; r[1][1] = 0; r[2][1] = 0
+r[0][0] = 0.5*R_param; r[1][0] = 0; r[2][0] = 0
+r[0][1] = -0.5*R_param; r[1][1] = 0; r[2][1] = 0
 
 v[0][0] = 0; v[1][0] = 100000; v[2][0] = 0
 v[0][1] = 0; v[1][1] = -100000; v[2][1] = 0
@@ -30,6 +30,24 @@ v[0][1] = 0; v[1][1] = -100000; v[2][1] = 0
 Rx = [[] for i in range(N)]; Ry = [[] for i in range(N)]; Rz = [[] for i in range(N)] 
 Vx = [[] for i in range(N)]; Vy = [[] for i in range(N)]; Vz = [[] for i in range(N)] 
 norms = []
+
+if continuing:
+	with open('testN_output.json', 'r') as n:
+	    N = simplejson.load(n)
+	with open('testnorms_output.json', 'r') as n:
+	    norms = simplejson.load(n)
+	with open('testRx_output.json', 'r') as rx:
+	    Rx = simplejson.load(rx)
+	with open('testRy_output.json', 'r') as ry:
+	    Ry = simplejson.load(ry)
+	with open('testRz_output.json', 'r') as rz:
+	    Rz = simplejson.load(rz)
+	with open('testRx_output.json', 'r') as vx:
+	    Vx = simplejson.load(vx)
+	with open('testRy_output.json', 'r') as vy:
+	    Vy = simplejson.load(vy)
+	with open('testRz_output.json', 'r') as vz:
+	    Vz = simplejson.load(vz)
 
 t0 = time()  
 
@@ -39,10 +57,10 @@ for step in range(steps):
 	######################################################################
 	#                   SELECT DESIRED SOLVER BELOW                      #
 	#                                                                    #
-	#v,r = rungekutta(accel,m,r,h,v)   #RK 4th Order                     # 
-	v,r = leapfrog(accel,m,r,h,v)     #leapfrog 2nd Order                #
-	#v,r = leapfrogFR(accel,m,r,h,v)  #leapfrog 4th Order                #
-	#v,r,h = rkf45(accel,m,r,h,v,0)   #RK 5th Order w/ Adaptive timestep #
+	#v,r = rungekutta(accel,m,r,h,v)   #RK 4th Order (seems to work)      # 
+	v,r = leapfrog(accel,m,r,h,v)   #leapfrog 2nd Order (seems to work) #
+	#v,r = leapfrogFR(accel,m,r,h,v)  #leapfrog 4th Order  (doesnt seem to work, should replace with Fannys)              #
+	#v,r,h = rkf45(accel,m,r,h,v,0)   #RK 5th Order w/ Adaptive timestep (seems off) #
 	######################################################################	
 	
 	# Store position

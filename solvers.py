@@ -20,7 +20,7 @@ def rungekutta(accel,m,r,h,v):
     return new_v,new_r
 
 #runge-kutta-fehlberg adaptive solver
-def rkf45(accel,m,r,h,v,recur,emin=10**-12,emax=10**-8,hmax=.001,hmin=.000001,recurmax=100):
+def rkf45(accel,m,r,h,v,recur,emin=3*10**-7,emax=3*10**-6,hmax=.1,hmin=.01,recurmax=100):
     """
     alternate K calculations for position (r) and velocity (v)
     velocity Ks call prior position K's (Kr) and position calls prior velocity K's (Kv)
@@ -34,7 +34,7 @@ def rkf45(accel,m,r,h,v,recur,emin=10**-12,emax=10**-8,hmax=.001,hmin=.000001,re
     k3r = v + 3/32.*k1v + 9/32.*k2v
     k4v = accel(m,r + 1932/2197.*k1r - 7200/2197.*k2r + 7296/2197.*k3r)
     k4r = v + 1932/2197.*k1v - 7200/2197.*k2v + 7296/2197.*k3v
-    k5v = accel(m,r + 439/216.*k1r - 8*k2r + 3680/513.*k3r - 845/4104*k4r)
+    k5v = accel(m,r + 439/216.*k1r - 8*k2r + 3680/513.*k3r - 845/4104.*k4r)
     k5r = v + 439/216.*k1v - 8*k2v + 3680/513.*k3v - 845/4104.*k4v
     k6v = accel(m,r - 8/27.*k1r + 2*k2r - 3544/2565.*k3r + 1859/4104.*k4r - 11/40.*k5r)
     k6r = v - 8/27.*k1v + 2*k2v - 3544/2565.*k3v + 1859/4104.*k4v - 11/40.*k5v
@@ -48,7 +48,7 @@ def rkf45(accel,m,r,h,v,recur,emin=10**-12,emax=10**-8,hmax=.001,hmin=.000001,re
     new_r5 = r + h*(16/135.*k1r + 6656/12825.*k3r+28561/56430.*k4r - 9/50.*k5r + 2/55.*k6r) 
 
     #calculate truncation % error between 5th and 4th order
-    eps = (new_r5 - new_r4)/new_r4
+    eps = (new_r5 - new_r4)
 
     #compare eps to emin and emax and update h accordingly
     if np.max(eps) < emin:
@@ -60,6 +60,7 @@ def rkf45(accel,m,r,h,v,recur,emin=10**-12,emax=10**-8,hmax=.001,hmin=.000001,re
     if np.max(eps) > emax:
         if h/2.0 > hmin:
             h /= 2.0
+            print h
             #error too large, call rkf45 again with smaller h
             if recur < recurmax:
                 recur += 1
