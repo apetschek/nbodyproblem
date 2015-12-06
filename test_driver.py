@@ -7,22 +7,25 @@ import pylab
 import simplejson
 
 # System parameters
-M_param = 1           #set all masses to m_sun
-R_param = 1           #set max initial position to be 1/10*AU
-V_param = 1           #set max initial velocity 10**5 m/s
+M_sun = 1.98 * 10**30       #mass of sun in kg
+AU    = 1.496 * 10**10      #distance from earth to sun in m
+M_param = M_sun             #set all masses to m_sun
+R_param = AU*.1             #set max initial position to be 1/10*AU
+V_param = 100000             #set max initial velocity 10**5 m/s
+
 
 N = 2                 #number of bodies in system
-h = .001              #time step: (1 sec)
-steps = 2000         #number of time steps
+h = .1              #time step: (1 sec)
+steps = 200000         #number of time steps
  
 # Initialize initial conditions
 m = masses(N,M_param); r = positions(N,R_param); v = velocities(N,V_param)   
 
-r[0][0] = 0.5; r[1][0] = 0; r[2][0] = 0
+r[0][0] = R_param; r[1][0] = 0; r[2][0] = 0
 r[0][1] = 0; r[1][1] = 0; r[2][1] = 0
 
-v[0][0] = 0; v[1][0] = 1; v[2][0] = 0
-v[0][1] = 0; v[1][1] = -1; v[2][1] = 0
+v[0][0] = 0; v[1][0] = 100000; v[2][0] = 0
+v[0][1] = 0; v[1][1] = -100000; v[2][1] = 0
 
 Rx = [[] for i in range(N)]; Ry = [[] for i in range(N)]; Rz = [[] for i in range(N)] 
 Vx = [[] for i in range(N)]; Vy = [[] for i in range(N)]; Vz = [[] for i in range(N)] 

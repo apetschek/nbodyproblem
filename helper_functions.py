@@ -10,7 +10,7 @@ def masses(N,mass):
 def positions(N,radius):
     initial_positions = np.ones(3*N)
     for i in range(3*N):
-        initial_positions[i] *= random.randrange(-radius,radius)
+        initial_positions[i] *= random.randrange(-radius,radius) + (random.random()-.5)
     return initial_positions.reshape((3,N))
     
 # Creates velocity array

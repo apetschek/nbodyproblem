@@ -80,7 +80,7 @@ def plot_norms_hist(norms, N):
     plt.show()
 
 AU    = 1.496 * 10**10
-limit = .01
+limit = 1
 
 plot_trajectory(Rx, Ry, Rz, N, limit)
 plot_norms_hist(norms, N)
