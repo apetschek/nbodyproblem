@@ -32,14 +32,16 @@ def accel(m,r):
                     acceleration[d][i] += G*m[j]*(r[d][i]-r[d][j])*(np.linalg.norm(r[:,j]-r[:,i],ord=2))**-3
     return acceleration
 
-# Print simulation progress
+# Prints simulation progress
 def progress(step,steps,t0):
     for i in range(1,10):
         if (step == (steps/10)*i):
             print "{}% Complete".format(int(100*((steps/10)*i)/steps))
             print "{} seconds remain".format(int(((time() - t0) / i)*(10-i)))
 
+# Calculates total energy of the system
 def energy(m,steps):
+    
     with open('N_output.json', 'r') as n:
         N = simplejson.load(n)
     with open('Rx_output.json', 'r') as rx:
@@ -78,6 +80,7 @@ def energy(m,steps):
     
     return energy_array
 
+# Calculates total momentum of the system
 def momentum(m,steps): 
 
     with open('N_output.json', 'r') as n:

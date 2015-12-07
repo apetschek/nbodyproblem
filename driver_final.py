@@ -1,5 +1,5 @@
 import numpy as np; import scipy as sc ;from time import time; import simplejson
-from solvers import rungekutta, leapfrog, leapfrogFR, rkf45
+from solvers import rk, leapfrog2, leapfrog4, rk_adaptive
 from helper_functions import accel, masses, positions, velocities, progress, momentum, energy
 import matplotlib.pyplot as plt
 
@@ -11,7 +11,7 @@ R_param = AU*.1
 V_param = 100000             
 N = 2                
 h = .1              
-steps = 105000 #one orbit is 105000 steps 10 sec  to run leapfrog
+steps = 205000 #one orbit is 105000 steps 10 sec to run leapfrog.
 
 # Initialize initial conditions
 m = masses(N,M_param); r = positions(N,R_param); v = velocities(N,V_param)   
@@ -27,13 +27,13 @@ for step in range(steps):
 	######################################################################
 	#                   SELECT DESIRED SOLVER BELOW                      #
 	#                                                                    #
-	# Runge-Kutta Methods
-	#v,r = rungekutta(accel,m,r,h,v)   #RK 4th Order (works)             # 
-	v,r,h = rkf45(accel,m,r,h,v,0)   #RK 5th Order w/ Adaptive timestep (seems off) #
+	# Runge-Kutta Methods                                                #
+	#v,r = rk(accel,m,r,h,v)              #4th Order (fixed time step)   # 
+	#v,r,h = rk_adaptive(accel,m,r,h,v,0) #5th Order (Adaptive time step)#
 	#
 	# Symplectic Methods
-	v,r = leapfrog(accel,m,r,h,v)   #leapfrog 2nd Order (work)s          #
-	#v,r = leapfrogFR(accel,m,r,h,v)  #leapfrog 4th Order  (works)       #
+	v,r = leapfrog2(accel,m,r,h,v)   #leapfrog 2nd Order (work)s        #
+	#v,r = leapfrog4(accel,m,r,h,v)  #leapfrog 4th Order  (works)         #
 	#
 	# Multistep Methods
 	######################################################################	

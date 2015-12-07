@@ -23,7 +23,7 @@ with open('Vz_output.json', 'r') as vz:
 M_sun = 1.98 * 10**30 
 M_param = M_sun 
 m = masses(N,M_param)
-steps = 100000    
+steps = 205000    
 
 def plot_energy(m,steps):
     E = energy(m,steps)
