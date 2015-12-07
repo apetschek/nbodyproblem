@@ -64,7 +64,7 @@ def rk_adaptive(accel,m,r,h,v,recur,emin=3*10**-7,emax=3*10**-6,hmax=.1,hmin=.01
             # Error too large, call rk_adaptive again with smaller h
             if recur < recurmax:
                 recur += 1
-                rkf45(accel,m,r,h,v,recur)
+                rk_adaptive(accel,m,r,h,v,recur)
         new_v = new_v5
         new_r = new_r5
     

@@ -11,7 +11,7 @@ R_param = AU*.1
 V_param = 100000             
 N = 2                
 h = .1              
-steps = 205000 #one orbit is 105000 steps 10 sec to run leapfrog.
+steps = 100*105000 #one orbit is 105000 steps 10 sec to run leapfrog.
 
 # Initialize initial conditions
 m = masses(N,M_param); r = positions(N,R_param); v = velocities(N,V_param)   
@@ -28,12 +28,12 @@ for step in range(steps):
 	#                   SELECT DESIRED SOLVER BELOW                      #
 	#                                                                    #
 	# Runge-Kutta Methods                                                #
-	#v,r = rk(accel,m,r,h,v)              #4th Order (fixed time step)   # 
+	#v,r = rk(accel,m,r,h,v)              #4th Order (fixed time step)    # 
 	#v,r,h = rk_adaptive(accel,m,r,h,v,0) #5th Order (Adaptive time step)#
 	#
 	# Symplectic Methods
 	v,r = leapfrog2(accel,m,r,h,v)   #leapfrog 2nd Order (work)s        #
-	#v,r = leapfrog4(accel,m,r,h,v)  #leapfrog 4th Order  (works)         #
+	#v,r = leapfrog4(accel,m,r,h,v)  #leapfrog 4th Order  (works)        #
 	#
 	# Multistep Methods
 	######################################################################	
@@ -54,17 +54,17 @@ t1 = time()
 print t1-t0 
 
 # Save output
-with open ('N_output.json', 'w') as n:
+with open ('N_output_LF2.json', 'w') as n:
 	simplejson.dump(N, n)
-with open ('Rx_output.json', 'w') as rx:
+with open ('Rx_output_LF2.json', 'w') as rx:
 	simplejson.dump(Rx, rx)
-with open ('Ry_output.json', 'w') as ry:
+with open ('Ry_output_LF2.json', 'w') as ry:
 	simplejson.dump(Ry, ry)
-with open ('Rz_output.json', 'w') as rz:
+with open ('Rz_output_LF2.json', 'w') as rz:
 	simplejson.dump(Rz, rz)
-with open ('Vx_output.json', 'w') as vx:
+with open ('Vx_output_LF2.json', 'w') as vx:
 	simplejson.dump(Vx, vx)
-with open ('Vy_output.json', 'w') as vy:
+with open ('Vy_output_LF2.json', 'w') as vy:
 	simplejson.dump(Vy, vy)
-with open ('Vz_output.json', 'w') as vz:
+with open ('Vz_output_LF2.json', 'w') as vz:
 	simplejson.dump(Vz, vz)
