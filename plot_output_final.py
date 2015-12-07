@@ -3,17 +3,37 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.animation as animation
 import simplejson
 import numpy as np
+from helper_functions import accel, masses, momentum, energy
 
-with open('testN_output.json', 'r') as n:
+with open('N_output.json', 'r') as n:
     N = simplejson.load(n)
-with open('testnorms_output.json', 'r') as n:
-    norms = simplejson.load(n)
-with open('testRx_output.json', 'r') as rx:
+with open('Rx_output.json', 'r') as rx:
     Rx = simplejson.load(rx)
-with open('testRy_output.json', 'r') as ry:
+with open('Ry_output.json', 'r') as ry:
     Ry = simplejson.load(ry)
-with open('testRz_output.json', 'r') as rz:
+with open('Rz_output.json', 'r') as rz:
     Rz = simplejson.load(rz)
+with open('Vx_output.json', 'r') as vx:
+    Vx = simplejson.load(vx)
+with open('Vy_output.json', 'r') as vy:
+    Vy = simplejson.load(vy)
+with open('Vz_output.json', 'r') as vz:
+    Vz = simplejson.load(vz)
+
+M_sun = 1.98 * 10**30 
+M_param = M_sun 
+m = masses(N,M_param)
+steps = 100000    
+
+def plot_energy(m,steps):
+    E = energy(m,steps)
+    plt.plot(E)
+    plt.show()
+
+def plot_momentum(m,steps):
+    P = momentum(m,steps)
+    plt.plot(P)
+    plt.show()
 
 def plot_trajectory(Rx, Ry, Rz, N, limit):
     Rx = np.array(Rx) / AU
@@ -82,5 +102,7 @@ def plot_norms_hist(norms, N):
 AU    = 1.496 * 10**10
 limit = .1
 
+plot_energy(m,steps)
+plot_momentum(m,steps)
 plot_trajectory(Rx, Ry, Rz, N, limit)
 plot_norms_hist(norms, N)

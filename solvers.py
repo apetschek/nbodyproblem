@@ -74,7 +74,8 @@ def rkf45(accel,m,r,h,v,recur,emin=3*10**-7,emax=3*10**-6,hmax=.1,hmin=.01,recur
     
     return new_v, new_r, h
 
-#leapfrog solver
+# Symplectic solvers:
+#Stromer Verlet
 def leapfrog(accel,m,r,h,v):
     #velocity Verlet (2nd order)
     vhalf = v + 0.5*h*accel(m,r)
@@ -82,29 +83,52 @@ def leapfrog(accel,m,r,h,v):
     new_v = vhalf + 0.5*h*accel(m,r)
     return new_v, new_r
 
+# #Forest-Ruth leapfrog solver 
+# def leapfrogFR(accel,m,r,h,v):
+#     #Forest-Ruth algorithm (4th order) 
+#     #http://arxiv.org/pdf/cond-mat/0110585v1.pdf
+#     eps =  .1644986515575760
+#     lam = -.02094333910398989
+#     chi =  .1235692651138917
+#     v += accel(m,r)*eps*h
+#     r += v*(1-2*lam)*h*0.5
+#     v += accel(m,r)*chi*h
+#     r += v*lam*h
+#     v += accel(m,r)*(1-2*(chi+eps))*h
+#     r += v*lam*h
+#     v += accel(m,r)*chi*h
+#     new_r = r + v*(1-2*lam)*h*0.5
+#     new_v= v + accel(m,new_r)*eps*h
+#     return new_v, new_r
+
 #Forest-Ruth leapfrog solver 
 def leapfrogFR(accel,m,r,h,v):
     #Forest-Ruth algorithm (4th order) 
     #http://arxiv.org/pdf/cond-mat/0110585v1.pdf
-    eps =  0.1786178958448091 
-    lam = -0.2123418310626054
-    chi = -0.06626458266981849
-    r += v*eps*h
-    v += accel(m,r)*(1-2*lam)*h*0.5
-    r += v*chi*h
-    v += accel(m,r)*lam*h
-    r += v*(1-2*(chi+eps))/h
-    v += accel(m,r)*lam*h
-    r += v*chi*h
-    new_v = v + accel(m,r)*(1-2*lam)*h*0.5
-    new_r = r + new_v*eps*h
+    eps =  .1644986515575760
+    lam = -.02094333910398989
+    chi =  .1235692651138917
+    v += accel(m,r)*eps*h
+    r += v*(1-2*lam)*h*0.5
+    v += accel(m,r)*chi*h
+    r += v*lam*h
+    v += accel(m,r)*(1-2*(chi+eps))*h
+    r += v*lam*h
+    v += accel(m,r)*chi*h
+    new_r = r + v*(1-2*lam)*h*0.5
+    new_v= v + accel(m,new_r)*eps*h
     return new_v, new_r
 
-
-
-
-
-
-
-
-
+def adamsbash(accel, m, r, h, v, step, new_v0, new_r0, new_v1, new_r1, new_v2, new_r2):
+    if step == 0:
+        new_v0, new_r0 = rungekutta(accel, m, r, h, v)
+        return new_v0, new_r0,new_v1, new_r1, new_v2, new_r2
+    elif step ==1:
+        new_v1, new_r1 = rungekutta(accel, m, r, h, v)
+        return new_v0, new_r0, new_v1, new_r1, new_v2, new_r2
+    elif step ==2:
+        new_v2, new_r2 = rungekutta(accel, m, r, h, v)
+        new_v0 = 0; new_r0=0; new_v1=0; new_r1=0
+        return new_v0, new_r0, new_v1, new_r1, new_v2, new_r2
+    else:
+        new_v, new_r = rungekutta(accel, m, r, h, v) + h*(1/12.)*(23*rungekutta(accel, m, new_r))
