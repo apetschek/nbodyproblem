@@ -9,14 +9,14 @@ AU    = 1.496 * 10**10
 M_param = M_sun        
 R_param = AU*.1            
 V_param = 100000             
-N = 2                
+N = 100                
 h = 250              
-steps = 100*105000/2500. #one orbit is 105,000 steps @ h = 0.1 = 10 sec to run leapfrog.
+steps = 100*105000/2500 #one orbit is 105,000 steps @ h = 0.1 = 10 sec to run leapfrog.
 
 # Initialize initial conditions
 m = masses(N,M_param); r = positions(N,R_param); v = velocities(N,V_param)   
-r[0][0] = .5*R_param; r[1][0] = 0; r[2][0] = 0; r[0][1] = -.5*R_param; r[1][1] = 0; r[2][1] = 0
-v[0][0] = 0; v[1][0] = 125000; v[2][0] = 0; v[0][1] = 0; v[1][1] = -125000; v[2][1] = 0
+# r[0][0] = .5*R_param; r[1][0] = 0; r[2][0] = 0; r[0][1] = -.5*R_param; r[1][1] = 0; r[2][1] = 0
+# v[0][0] = 0; v[1][0] = 125000; v[2][0] = 0; v[0][1] = 0; v[1][1] = -125000; v[2][1] = 0
 Rx = [[] for i in range(N)]; Ry = [[] for i in range(N)]; Rz = [[] for i in range(N)] 
 Vx = [[] for i in range(N)]; Vy = [[] for i in range(N)]; Vz = [[] for i in range(N)] 
 
