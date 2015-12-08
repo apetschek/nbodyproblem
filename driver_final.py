@@ -1,6 +1,6 @@
 import numpy as np; import scipy as sc ;from time import time; import simplejson
-from solvers import rk, leapfrog2, leapfrog4, rk_adaptive
-from helper_functions import accel, masses, positions, velocities, progress, momentum, energy
+from solvers import rk4, rk5, rk8, leapfrog2, leapfrog4, rk_adaptive
+from helper_functions import accel, masses, positions, velocities, progress
 import matplotlib.pyplot as plt
 
 # System parameters
@@ -10,8 +10,8 @@ M_param = M_sun
 R_param = AU*.1            
 V_param = 100000             
 N = 2                
-h = .1              
-steps = 100*105000 #one orbit is 105000 steps 10 sec to run leapfrog.
+h = 250              
+steps = 100*105000/2500. #one orbit is 105,000 steps @ h = 0.1 = 10 sec to run leapfrog.
 
 # Initialize initial conditions
 m = masses(N,M_param); r = positions(N,R_param); v = velocities(N,V_param)   
@@ -21,21 +21,23 @@ Rx = [[] for i in range(N)]; Ry = [[] for i in range(N)]; Rz = [[] for i in rang
 Vx = [[] for i in range(N)]; Vy = [[] for i in range(N)]; Vz = [[] for i in range(N)] 
 
 t0 = time()  
-for step in range(steps):
+for step in range(steps+1):
 	progress(step,steps,t0)
 
 	######################################################################
 	#                   SELECT DESIRED SOLVER BELOW                      #
 	#                                                                    #
 	# Runge-Kutta Methods                                                #
-	#v,r = rk(accel,m,r,h,v)              #4th Order (fixed time step)    # 
+	#v,r = rk4(accel,m,r,h,v)             #4th Order (fixed time step)   # 
+	#v,r = rk5(accel,m,r,h,v)			  #5th Order (fixed time step)   #
+	#v,r = rk8(accel,m,r,h,v)
 	#v,r,h = rk_adaptive(accel,m,r,h,v,0) #5th Order (Adaptive time step)#
-	#
-	# Symplectic Methods
-	v,r = leapfrog2(accel,m,r,h,v)   #leapfrog 2nd Order (work)s        #
-	#v,r = leapfrog4(accel,m,r,h,v)  #leapfrog 4th Order  (works)        #
-	#
-	# Multistep Methods
+	#																	 #
+	# Symplectic Methods											     #
+	#v,r = leapfrog2(accel,m,r,h,v)   #leapfrog 2nd Order (work)s        #
+	v,r = leapfrog4(accel,m,r,h,v)   #leapfrog 4th Order  (works)       #
+	#																	 #
+	# Multistep Methods													 #
 	######################################################################	
 	
 	# Store position
@@ -54,17 +56,17 @@ t1 = time()
 print t1-t0 
 
 # Save output
-with open ('N_output_LF2.json', 'w') as n:
+with open ('N_output_LF4_250s_BIG.json', 'w') as n:
 	simplejson.dump(N, n)
-with open ('Rx_output_LF2.json', 'w') as rx:
+with open ('Rx_output_LF4_250s_BIG.json', 'w') as rx:
 	simplejson.dump(Rx, rx)
-with open ('Ry_output_LF2.json', 'w') as ry:
+with open ('Ry_output_LF4_250s_BIG.json', 'w') as ry:
 	simplejson.dump(Ry, ry)
-with open ('Rz_output_LF2.json', 'w') as rz:
+with open ('Rz_output_LF4_250s_BIG.json', 'w') as rz:
 	simplejson.dump(Rz, rz)
-with open ('Vx_output_LF2.json', 'w') as vx:
+with open ('Vx_output_LF4_250s_BIG.json', 'w') as vx:
 	simplejson.dump(Vx, vx)
-with open ('Vy_output_LF2.json', 'w') as vy:
+with open ('Vy_output_LF4_250s_BIG.json', 'w') as vy:
 	simplejson.dump(Vy, vy)
-with open ('Vz_output_LF2.json', 'w') as vz:
+with open ('Vz_output_LF4_250s_BIG.json', 'w') as vz:
 	simplejson.dump(Vz, vz)
